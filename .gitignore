@@ -1,0 +1,20 @@
+# 1. Entorno Virtual
+# Ignora la carpeta 'venv' y '.venv' donde se instalan las librerías
+venv/
+.venv/
+
+# 2. Archivos Compilados y de Caché de Python
+# Ignora los archivos generados automáticamente por Python (Bytecode)
+__pycache__/
+*.py[cod]
+
+# 3. Archivos del Sistema Operativo y de IDEs
+# Ignora archivos temporales y de configuración del IDE (si usas VS Code o PyCharm)
+.DS_Store
+.vscode/
+.idea/
+
+# 4. Datos Grandes o Generados
+# Ignora el dataset de Kaggle (si es grande y ya está listado en el README)
+# Esto evita subir archivos grandes al repositorio
+TSLA_Kaggle_Data.csv

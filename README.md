@@ -370,7 +370,7 @@ pytest tests/ -k "benchmark"
 
 ## 👥 Autor
 
-**Nombre**: [Tu Nombre]  
+**Nombre**: [Henry Eduardo Zambrano Cisneros]  
 **Email**: [tu-email@ucol.mx]  
 **GitHub**: [@tu-usuario](https://github.com/tu-usuario)
 
