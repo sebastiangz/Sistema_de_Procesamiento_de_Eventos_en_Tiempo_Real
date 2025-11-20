@@ -368,12 +368,17 @@ pytest tests/ -k "benchmark"
 
 ---
 
-## 👥 Autor
+## 👥 Autores
 
-**Nombre**: [Henry Eduardo Zambrano Cisneros]  
-**Email**: [tu-email@ucol.mx]  
-**GitHub**: [@tu-usuario](https://github.com/tu-usuario)
-
+**Nombre**: [Henry Eduardo Zambrano Cisneros]
+            [Irwin Carcaño Gonzalez]
+            [Cristofer jesus Gomez Gonzalez ]  
+**Email**:  [hzambrano@ucol.mx]
+            [icarcano@ucol.mx]
+            [cgomez49@ucol.mx]  
+**GitHub**: [@eLpXn0chon](https://github.com/eLpXn0chon)
+            [@x001rwin](https://github.com/x001rwin)
+            [@Cristofer-Gomez](https://github.com/Cristofer-Gomez)
 ---
 
 ## 📄 Licencia

@@ -1,7 +1,15 @@
 import rx
 from rx import operators as ops
 from rx.subject import Subject
-from rx.scheduler.eventloop import AsyncIOThreadSafeScheduler
+try:
+    # RxPY v3+: try the common AsyncIOScheduler name
+    from rx.scheduler.eventloop import AsyncIOScheduler
+except Exception:
+    try:
+        # Older/alternate name
+        from rx.scheduler.eventloop import AsyncIOThreadSafeScheduler as AsyncIOScheduler
+    except Exception:
+        AsyncIOScheduler = None
 from datetime import datetime
 import asyncio
 from typing import Iterable, Callable, Optional
@@ -70,4 +78,6 @@ def create_event_stream(name: str) -> EventStream:
 # Helper: scheduler compatible con asyncio
 def get_async_scheduler(loop: Optional[asyncio.AbstractEventLoop] = None):
     loop = loop or asyncio.get_event_loop()
-    return AsyncIOThreadSafeScheduler(loop)
+    if AsyncIOScheduler is None:
+        raise RuntimeError("No compatible AsyncIO scheduler found in rx.scheduler.eventloop")
+    return AsyncIOScheduler(loop)

@@ -1,4 +1,12 @@
+#!/usr/bin/env python3
 # Simulacion de un sistema de monitorizacion de temperatura IoT
+import os
+import sys
+SCRIPT_DIR = os.path.dirname(__file__)
+PROJECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, '..'))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
+
 import rx
 import time
 from rx import operators as ops
