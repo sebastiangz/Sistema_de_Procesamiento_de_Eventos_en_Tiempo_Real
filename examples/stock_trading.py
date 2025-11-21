@@ -20,7 +20,7 @@ from src.streams import Event
 from src.patterns import detect_pattern, high_volatility_pattern
 from src.aggregators import moving_average
 from src.alerts import console_alerter
-from src.dashboard import print_dashboard_line
+from src.dashboard import print_dashboard_line, build_six_panel_figure, save_dashboard_html
 
 DATASET_FILE = "TSLA.csv.xls"       
 TICKER_SYMBOL = "TSLA"
@@ -122,6 +122,14 @@ def main():
     # Stream principal: usamos un Subject y emitimos eventos en un loop async
     source = Subject()
 
+    # Series para dashboard
+    prices = []
+    mas = []
+    volumes = []
+    changes = []
+    anomalies = []
+    alerts_count = []
+
     dashboard_flow = source.pipe(
         moving_average(window=10),
         ops.map(lambda x: Event("MA_UPDATE", x))
@@ -145,7 +153,25 @@ def main():
 
     async def _run_async():
         # Suscribir flujos (callbacks ejecutarán en este hilo de event loop)
-        dash_sub = dashboard_flow.subscribe(on_next=print_dashboard_line)
+        def _collector(ev):
+            # ev is an Event with data possibly being dict from moving_average
+            try:
+                data = ev.data if hasattr(ev, 'data') else ev
+                price = data.get('price', 0)
+                ma = data.get('ma', None)
+                vol = data.get('volume', 0)
+                ch = data.get('change', 0)
+                prices.append(price)
+                mas.append(ma if ma is not None else price)
+                volumes.append(vol)
+                changes.append(ch)
+                anomalies.append(0)
+                alerts_count.append(0)
+            except Exception:
+                pass
+            print_dashboard_line(ev)
+
+        dash_sub = dashboard_flow.subscribe(on_next=_collector)
         alert_sub = alert_flow.subscribe(on_next=console_alerter)
 
         try:
@@ -163,6 +189,22 @@ def main():
                 alert_sub.dispose()
             except Exception:
                 pass
+
+    # After run, try to build dashboard from collected series
+    try:
+        series = {
+            'Price': prices,
+            'MA': mas,
+            'Volume': volumes,
+            'Change': changes,
+            'Anomaly': anomalies,
+            'Alerts': alerts_count,
+        }
+        fig = build_six_panel_figure(series, title=f"{TICKER_SYMBOL} Dashboard")
+        save_dashboard_html(fig, path=f"{TICKER_SYMBOL.lower()}_dashboard.html")
+        print(f"Saved dashboard: {TICKER_SYMBOL.lower()}_dashboard.html")
+    except Exception as e:
+        print("Could not build dashboard:", e)
 
     try:
         asyncio.run(_run_async())

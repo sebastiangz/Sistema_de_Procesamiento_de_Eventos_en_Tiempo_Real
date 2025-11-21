@@ -18,7 +18,7 @@ from src.streams import EventStream, Event
 from src.aggregators import moving_average
 from src.patterns import threshold_pattern, detect_pattern
 from src.alerts import AlertManager
-from src.dashboard import websocket_broadcaster_factory, print_dashboard_line
+from src.dashboard import websocket_broadcaster_factory, print_dashboard_line, build_six_panel_figure, save_dashboard_html
 
 
 def main():
@@ -34,10 +34,33 @@ def main():
     print("WS active:", ws_started)
 
     # Pipeline: compute moving average on price, then map to Event and print
+    # Collect series for dashboard
+    prices = []
+    mas = []
+    volumes = []
+    changes = []
+    anomalies = []
+    alerts_count = []
+
+    def _collect_and_print(st):
+        data = st if isinstance(st, dict) else st.data
+        price = data.get("price", 0)
+        ma = data.get("ma")
+        vol = data.get("volume", 0)
+        ch = data.get("change", 0)
+        prices.append(price)
+        mas.append(ma if ma is not None else price)
+        volumes.append(vol)
+        changes.append(ch)
+        # anomalies and alerts_count are demo placeholders
+        anomalies.append(0)
+        alerts_count.append(0)
+        print_dashboard_line(Event("MA_UPDATE", data))
+
     s.as_observable().pipe(
         moving_average(window=3),
-        ops.map(lambda st: Event("MA_UPDATE", st))
-    ).subscribe(on_next=print_dashboard_line)
+        ops.map(lambda st: st if isinstance(st, dict) else st)
+    ).subscribe(on_next=_collect_and_print)
 
     # Pattern: threshold on 'price' > 105 (demo)
     pat = threshold_pattern("price", 105)
@@ -52,6 +75,22 @@ def main():
 
     # Broadcast a metric
     ws.broadcast({"type": "demo_complete", "events": 6})
+
+    # Build and save dashboard with collected series
+    try:
+        series = {
+            "Price": prices,
+            "MA": mas,
+            "Volume": volumes,
+            "Change": changes,
+            "Anomaly": anomalies,
+            "Alerts": alerts_count,
+        }
+        fig = build_six_panel_figure(series, title="Pipeline Demo Dashboard")
+        save_dashboard_html(fig, path="pipeline_dashboard.html")
+        print("Saved dashboard: pipeline_dashboard.html")
+    except Exception as e:
+        print("Could not build dashboard:", e)
 
     # Stop websocket if active
     if ws_started:

@@ -2,6 +2,14 @@ from datetime import datetime
 from typing import Dict, Any
 from typing import Dict, Any
 
+# Optional plotting helpers
+try:
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+    PLOTLY_AVAILABLE = True
+except Exception:
+    PLOTLY_AVAILABLE = False
+
 
 def print_dashboard_line(event):
     """Suscriptor que imprime una lInea formateada para el dashboard"""
@@ -64,11 +72,26 @@ class WebsocketBroadcaster:
 
         self._loop = loop
         try:
-            self._server = self._loop.run_until_complete(
-                self._websockets.serve(self._handler, self.host, self.port)
-            )
-            self._active = True
-            return True
+            # If the loop is already running (e.g., embedded environment), create the server
+            # without blocking the thread. Otherwise, run until complete.
+            if self._loop.is_running():
+                # schedule coroutine to start server; don't block waiting for it here
+                try:
+                    coro = self._websockets.serve(self._handler, self.host, self.port)
+                    # create task on the running loop
+                    self._loop.create_task(coro)
+                    self._active = True
+                    return True
+                except Exception:
+                    self._active = False
+                    self._server = None
+                    return False
+            else:
+                self._server = self._loop.run_until_complete(
+                    self._websockets.serve(self._handler, self.host, self.port)
+                )
+                self._active = True
+                return True
         except Exception:
             self._active = False
             self._server = None
@@ -116,3 +139,44 @@ def websocket_broadcaster_factory(host: str = "localhost", port: int = 8765):
       ws.stop()
     """
     return WebsocketBroadcaster(host, port)
+
+
+def build_six_panel_figure(series_dict: Dict[str, Any], title: str = "Dashboard"):
+    """Construye una figura Plotly con hasta 6 subplots (3 filas x 2 columnas).
+
+    `series_dict` debe ser un dict con hasta 6 entradas. Cada entrada puede ser:
+      - una tupla `(x_list, y_list)`
+      - una lista/iterable `y_list` (x será índice)
+
+    Retorna la figura Plotly. Si Plotly no está disponible lanza RuntimeError.
+    """
+    if not PLOTLY_AVAILABLE:
+        raise RuntimeError("Plotly no está instalado en el entorno. Instala `plotly` para usar las gráficas.")
+
+    # Crear figura 3x2
+    fig = make_subplots(rows=3, cols=2, subplot_titles=list(series_dict.keys())[:6])
+
+    items = list(series_dict.items())[:6]
+    for idx, (name, series) in enumerate(items):
+        row = idx // 2 + 1
+        col = idx % 2 + 1
+
+        if isinstance(series, tuple) and len(series) >= 2:
+            x, y = series[0], series[1]
+        else:
+            y = list(series)
+            x = list(range(len(y)))
+
+        trace = go.Scatter(x=x, y=y, mode='lines+markers', name=name)
+        fig.add_trace(trace, row=row, col=col)
+
+    fig.update_layout(height=900, width=1200, title_text=title, showlegend=False)
+    return fig
+
+
+def save_dashboard_html(fig, path: str = "dashboard.html"):
+    """Guarda la figura Plotly en un HTML auto-contenido para la presentación."""
+    if not PLOTLY_AVAILABLE:
+        raise RuntimeError("Plotly no está instalado en el entorno. Instala `plotly` para usar las gráficas.")
+    fig.write_html(path, include_plotlyjs='cdn')
+    return path

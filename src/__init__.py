@@ -1,7 +1,7 @@
 import sys
 
 # Si este archivo se ejecuta directamente (no como paquete), mostrar mensaje
-# y salir antes de intentar importaciones relativas que fallarían.
+# y salir antes de intentar importaciones relativas que fallarian.
 if __name__ == "__main__" and __package__ is None:
     print("No ejecutes este archivo directamente. Usa los ejemplos en ./examples o importa el paquete 'src'.")
     print("Ejemplo: python -u examples/pipeline_demo.py  o  MAX_TICKS=20 python -u examples/stock_trading.py")

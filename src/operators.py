@@ -33,12 +33,37 @@ def debounce_window(seconds: float):
     )
 
 def with_backpressure(buffer_size: int = 50, sample_interval: float = 0.1):
-    """Aplica contrapresion muestreando el flujo"""
-    return ops.pipe(
-        ops.buffer_with_count(buffer_size),
-        ops.flat_map(lambda batch: ops.from_iterable(batch)),
-        ops.sample(sample_interval)
-    )
+    """Aplica contrapresion rudimentaria: agrupa por intervalo de tiempo, recorta
+    el batch a `buffer_size` (drop_oldest) y emite los elementos.
+
+    - `buffer_size`: máximo número de elementos que se mantendrán por intervalo
+    - `sample_interval`: ventana temporal (segundos) para agrupar eventos
+    """
+    def _op(source):
+        return source.pipe(
+            ops.buffer_with_time(sample_interval),
+            ops.map(lambda batch: batch[-buffer_size:] if batch else []),
+            ops.flat_map(lambda batch: rx.from_iterable(batch))
+        )
+    return _op
+
+
+def retry_with_backoff(max_retries: int = 3, base_delay: float = 0.5):
+    """Operador que reintenta en caso de error con backoff exponencial.
+
+    Usa `retry_when` combinando el stream de errores con delays crecientes.
+    """
+    def _op(source):
+        def notifier(errors):
+            # errors paired with attempt number 1..max_retries
+            return errors.pipe(
+                ops.zip(rx.range(1, max_retries + 1)),
+                ops.flat_map(lambda pair: rx.timer(base_delay * (2 ** (pair[1] - 1))))
+            )
+
+        return source.pipe(ops.retry_when(notifier))
+
+    return _op
 
 
 # -------------------------
