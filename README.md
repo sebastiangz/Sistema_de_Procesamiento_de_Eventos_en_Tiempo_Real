@@ -411,7 +411,7 @@ python -m unittest discover -s tests -p "test_*.py" -v
 
 # Pipeline demo (genera pipeline_dashboard.html)
 
-# export MAX_TICKS = N
+export MAX_TICKS=200
 $env:MAX_TICKS = "200"
 
 # Ejecutar demo
