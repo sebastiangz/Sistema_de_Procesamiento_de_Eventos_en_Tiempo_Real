@@ -141,7 +141,11 @@ Sistema_de_Procesamiento_de_Eventos_en_Tiempo_Real/
 │   ├── `operators_guide.md`
 │   └── `references_apa.md`
 ├── `requirements.txt`
+├── `pipeline_dashboard.html`
+├── `test_dashboard.html`
+├── `tsla_dashboard.html`
 ├── `README.md`
+├── `TSLA.csv.xls`
 └── `.gitignore`
 ```
 
@@ -483,16 +487,24 @@ Start-Process ".\tsla_dashboard.html"
 ### Artículos Académicos
 - Czaplicki, E. (2012). *Elm: Concurrent FRP for Functional GUIs*
 - Bainomugisha, E. et al. (2013). *A Survey on Reactive Programming*
+- Czaplicki, E. (2012). Elm: Concurrent FRP for Functional GUIs*
+- Meijer, E., & van der Putten, M. (2010). Reactive Extensions for .NET*
 
 ### Documentación Técnica
 - **RxPY**: https://rxpy.readthedocs.io/
 - **ReactiveX**: http://reactivex.io/
 - **Streamz**: https://streamz.readthedocs.io/
+- **Plotly Documentation**: https://plotly.com/python/
+- **Pandas Documentation**: https://pandas.pydata.org/docs/
+- **Dash Documentation (Plotly)**: https://dash.plotly.com/
+- **WebSocket Protocol**: https://datatracker.ietf.org/doc/html/rfc6455
 
 ### Recursos de Aprendizaje
 - André Staltz - Introduction to Reactive Programming
 - Erik Meijer - Reactive Extensions course
-
+- David Luckham - The Power of Events: An Introduction to Complex Event Processing in Distributed Enterprise Systems
+- Tyler Akidau, Slava Chernyak y Reuven Lax - Treaming Systems: The What, Where, When, and How of Large-Scale Data Processing 
+- EEE Transactions on Knowledge and Data Engineering (Artículos de investigación sobre CEP)
 ---
 
 ## 🏆 Criterios de Evaluación
@@ -515,6 +527,8 @@ Start-Process ".\tsla_dashboard.html"
 **GitHub**: [@eLpXn0chon](https://github.com/eLpXn0chon)
             [@x001rwin](https://github.com/x001rwin)
             [@Cristofer-Gomez](https://github.com/Cristofer-Gomez)
+
+**Video**: https://drive.google.com/file/d/1vlAcjeKrbQUuvEJpNw0Xg_qBGOzk82fv/view?usp=sharing
 ---
 
 ## 📄 Licencia
