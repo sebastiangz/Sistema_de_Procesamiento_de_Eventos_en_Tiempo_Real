@@ -402,19 +402,34 @@ def with_backpressure_async(buffer_size: int = 100, sample_every: float = 0.05):
 ## 🧪 Testing
 
 ```bash
-# Ejecutar tests: 
-source .venv/bin/activate
+
+# Activar entorno virtual (equivalente a: source .venv/bin/activate)
+.\.venv\Scripts\Activate.ps1
+
+# Ejecutar tests
 python -m unittest discover -s tests -p "test_*.py" -v
 
 # Pipeline demo (genera pipeline_dashboard.html)
-export MAX_TICKS=200
-source .venv/bin/activate
-python examples/pipeline_demo.py
+
+# export MAX_TICKS = N
+$env:MAX_TICKS = "200"
+
+# Ejecutar demo
+python examples\pipeline_demo.py
+
+# Abrir dashboard (equivalente a: open pipeline_dashboard.html)
+Start-Process ".\pipeline_dashboard.html"
 
 # Stock demo (genera tsla_dashboard.html)
-export MAX_TICKS=300
-source .venv/bin/activate
-python examples/stock_trading.py
+
+# export MAX_TICKS = N
+$env:MAX_TICKS = "300"
+
+# Ejecutar demo
+python examples\stock_trading.py
+
+# Abrir dashboard (equivalente a: open tsla_dashboard.html)
+Start-Process ".\tsla_dashboard.html"
 ```
 
 ---

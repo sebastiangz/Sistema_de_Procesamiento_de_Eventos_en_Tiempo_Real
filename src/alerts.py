@@ -15,7 +15,7 @@ def console_alerter(alert: Dict[str, Any]):
 
 
 class AlertManager:
-    """Maneja deduplicación, agregación y notificaciones de alertas.
+    """Maneja deduplicacion, agregación y notificaciones de alertas
 
     - `notify(alert)` procesa y entrega alertas a los suscriptores
     - deduplication window evita repetición en un periodo corto

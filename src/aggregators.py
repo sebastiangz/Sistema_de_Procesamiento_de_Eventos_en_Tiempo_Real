@@ -5,10 +5,10 @@ from .streams import Event
 INITIAL_ACC = {"sum": 0.0, "count": 0, "history": []}
 
 def moving_average(window: int = 5):
-    """Calcula la media mOvil simple (SMA) en una ventana deslizante"""
+    """Calcula la media movil simple (SMA) en una ventana deslizante"""
     
     def accumulator(acc, event):
-        """FunciOn pura que calcula el nuevo estado (inmutable)"""
+        """Funcion pura que calcula el nuevo estado (inmutable)"""
         price = event.data.get("price", 0)
 
         # 1. Actualizar el historial con el nuevo precio
