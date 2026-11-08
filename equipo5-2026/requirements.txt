@@ -1,0 +1,2 @@
+# Pruebas unitarias para el control de calidad 
+pytest==8.1.1
