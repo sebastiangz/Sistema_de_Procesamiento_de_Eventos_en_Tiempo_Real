@@ -1,14 +1,26 @@
 Artículo 1
 -------------------------------------------------------
-Cita:
-Enlace:
+Cita:T. Dubuc, F. Stahl y E. B. Roesch, "Mapeando el panorama del Big Data: Tecnologías, Plataformas y Paradigmas para el Análisis en Tiempo Real de Flujos de Datos," en IEEE Access, vol. 9, pp. 15351-15374, 2021, doi: 10.1109/ACCESS.2020.3046132.
+Enlace:https://ieeexplore.ieee.org/document/9300187
+
+¿Por qué está relacionado con mi proyecto?
+
+Este artículo está relacionado con mi proyecto porque estudia cómo recibir, procesar y analizar grandes cantidades de datos de manera continua y en tiempo real. Esto se relaciona directamente con el uso de Streams en mi sistema, ya que se necesita recibir eventos constantemente y aplicar operaciones para filtrar y transformar la información conforme va llegando. Además, permite comprender las tecnologías y los métodos utilizados para trabajar con flujos de datos.
 
 Artículo 2
 -------------------------------------------------------
-Cita:
-Enlace:
+Cita:Vogel, A., Henning, S., Perez-Wohlfeil, E., Ertl, O., & Rabiser, R. (2024). A Comprehensive Benchmarking Analysis of Fault Recovery in Stream Processing Frameworks. En ACM International Conference on Distributed and Event-Based Systems (DEBS) (pp. 171-182). 
+Enlace:https://dl.acm.org/doi/10.1145/3629104.3666040
+
+¿Por qué está relacionado con mi proyecto?
+
+Este artículo se relaciona con mi proyecto porque analiza cómo mantener un sistema de procesamiento de eventos eficiente, estable y confiable. Estudia el rendimiento de diferentes herramientas de procesamiento de flujos, así como su capacidad para recuperarse cuando ocurren fallas. Esto es importante para mi sistema porque debe procesar eventos continuamente, evitar retrasos y mantener un funcionamiento adecuado incluso cuando se presentan problemas durante el procesamiento.
 
 Artículo 3
 -------------------------------------------------------
-Cita:
-Enlace:
+Cita:Liu, X., & Buyya, R. (2020). Resource Management and Scheduling in Distributed Stream Processing Systems. ACM Computing Surveys, 53(3), 1-41.
+Enlace:https://dl.acm.org/doi/10.1145/3355399
+
+¿Por qué está relacionado con mi proyecto?
+
+Este artículo está relacionado con mi proyecto porque explica cómo administrar los recursos y organizar las operaciones necesarias para procesar flujos de datos de manera eficiente. Aborda temas como la paralelización de operadores, la programación de tareas y la reducción de tiempos de procesamiento. Estos conceptos aportan conocimientos para comprender cómo optimizar las transformaciones de eventos y controlar el flujo de información dentro del sistema, evitando sobrecargas y retrasos.
