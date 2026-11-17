@@ -18,3 +18,4 @@ __pycache__/
 # Ignora el dataset de Kaggle (si es grande y ya está listado en el README)
 # Esto evita subir archivos grandes al repositorio
 TSLA_Kaggle_Data.csv
+processed_trading_data2.csv
