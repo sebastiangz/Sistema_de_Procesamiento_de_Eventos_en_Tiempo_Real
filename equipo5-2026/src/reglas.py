@@ -1,7 +1,38 @@
+"""Reglas de detección de volatilidad sobre ventanas de eventos de Bitcoin.
+
+Evalúa ventanas de `Evento` (las que produce `operadores.ventanas`) y genera
+una `Alerta` cuando se cumple alguna regla. 
+
+Una regla es una función `ventana -> Alerta | None`. Se crea con una función
+fábrica que fija su umbral (por ejemplo, `regla_variacion(2.0)`) y se activa
+cuando su medida es igual o mayor que ese umbral.
+
+Reglas disponibles:
+    * VARIACION (`regla_variacion`): cambio porcentual entre el primer y el
+      último evento de la ventana. Umbral por defecto: 2.0 %.
+    * SALTO (`regla_salto`): cambio porcentual entre los dos últimos eventos.
+      Umbral por defecto: 1.0 %.
+    * VOLATILIDAD (`regla_volatilidad`): desviación estándar de los cambios
+      entre eventos consecutivos (necesita al menos 3 eventos). Umbral por
+      defecto: 0.1 %.
+
+Las tres reglas están agrupadas en `REGLAS_POR_DEFECTO`.
+
+Funciones principales:
+    * `evaluar`: aplica varias reglas a una ventana.
+    * `generar_alertas`: convierte un flujo de ventanas en un flujo de alertas.
+    * `formatear_alerta`: convierte una alerta en texto para mostrarla.
+
+Para ver una demostración (desde la raíz del proyecto):
+    python -m src.reglas
+"""
+
 from collections import namedtuple
 from functools import partial
 from itertools import chain
 from statistics import pstdev
+from datetime import datetime, timezone
+from src.streams import Evento
 
 
 Alerta = namedtuple("Alerta", ["timestamp", "simbolo", "tipo", "valor", "segundos"])
@@ -189,9 +220,9 @@ def formatear_alerta(alerta):
 REGLAS_POR_DEFECTO = (regla_variacion(2.0), regla_salto(1.0), regla_volatilidad(0.1))
 
 
-if __name__ == "__main__":
-    from datetime import datetime, timezone
-    from streams import Evento
+def test():
+    """Ejecuta una demostración de las reglas de volatilidad sobre una ventana de ejemplo.
+    """
 
     t0 = datetime(2026, 1, 1, tzinfo=timezone.utc)
     precios = (67000, 67010, 67005, 68500)
@@ -200,3 +231,7 @@ if __name__ == "__main__":
     )
     for alerta in evaluar(REGLAS_POR_DEFECTO, ventana):
         print(formatear_alerta(alerta))
+
+
+if __name__ == "__main__":
+    test()
