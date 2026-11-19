@@ -1,3 +1,19 @@
+"""Flujo de precios de Bitcoin.
+
+Ideas que se usan en este módulo:
+    * Datos inmutables: el evento es una namedtuple, no se modifica.
+    * Funciones puras: reciben datos y devuelven datos, sin cambiar nada afuera.
+    * Flujos perezosos: map, filter y generadores procesan un evento a la vez,
+      sin cargar todo el archivo en memoria.
+    * Composición: el flujo final se arma conectando funciones pequeñas.
+    * Efectos secundarios aislados: la lectura del archivo y la pausa
+      (sleep) están cada una en su propia función.
+
+Hay dos fuentes de eventos:
+    * generar_precios_csv: reproduce el dataset histórico de Kaggle.
+    * generar_precios_btc: simula precios con picos de volatilidad.
+"""
+
 import csv
 import random
 import time
