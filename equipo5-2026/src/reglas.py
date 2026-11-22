@@ -38,8 +38,7 @@ from src.streams import Evento
 Alerta = namedtuple("Alerta", ["timestamp", "simbolo", "tipo", "valor", "segundos"])
 
 
-# Funciones 
-
+# Funciones
 def duracion(ventana):
     """Segundos que abarca la ventana (del primer al último evento).
 
@@ -105,11 +104,7 @@ def crear_alerta(ventana, tipo, valor):
         segundos=duracion(ventana),
     )
 
-
-
-# Reglas 
-
-
+# Reglas
 def _regla_variacion(umbral, ventana):
     """Se activa si el precio cambió más de `umbral` % en toda la ventana."""
     if len(ventana) < 2:

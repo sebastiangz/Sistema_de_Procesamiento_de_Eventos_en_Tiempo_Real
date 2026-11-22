@@ -1,6 +1,11 @@
+"""Pruebas de src/operadores.py.
+Ejecutación:
+    python -m pytest tests/
+"""
+# pylint: disable=missing-function-docstring
 
-import pytest
 from collections import namedtuple
+import pytest
 
 from src.operadores import (
     calcular_cambio,

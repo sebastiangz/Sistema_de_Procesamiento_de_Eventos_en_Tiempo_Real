@@ -1,6 +1,5 @@
 """Pruebas de src/streams.py.
 Ejecutación:
-    python -m unittest discover tests
     python -m pytest tests/
 """
 # pylint: disable=missing-class-docstring,missing-function-docstring
