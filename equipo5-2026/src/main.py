@@ -42,9 +42,6 @@ def main():
             print("--", formatear_estado(estado))
 
 
-if __name__ == "__main__":
-    main()
-
 """Punto de entrada: conecta streams, state y reglas."""
 
 from datetime import datetime, timezone
