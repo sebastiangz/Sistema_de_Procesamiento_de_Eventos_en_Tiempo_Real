@@ -150,7 +150,8 @@ def generar_precios_btc(precio_inicial=67_000.0, volatilidad=0.0005,
         factor_pico: Cuántas veces mayor es el cambio durante un pico.
         intervalo: Segundos que separan un evento del siguiente.
         semilla: Semilla aleatoria, para obtener siempre la misma secuencia.
-        inicio: Fecha del primer evento (datetime con zona horaria). Si es None se usa la hora actual en UTC.
+        inicio: Fecha del primer evento (datetime con zona horaria). Si es
+        None se usa la hora actual en UTC.
         simbolo: Símbolo del activo.
 
     Returns:
