@@ -3,7 +3,12 @@
 from datetime import datetime, timezone
 from itertools import islice
 
-from src.reglas import REGLAS_POR_DEFECTO, formatear_alerta
+from src.reglas import (
+    formatear_alerta,
+    regla_salto,
+    regla_variacion,
+    regla_volatilidad,
+)
 from src.state import formatear_estado, generar_estados
 from src.streams import (
     con_pausa,
@@ -24,6 +29,11 @@ PAUSA = 0.2
 VENTANA = 10
 UMBRAL_SALTO = 0.2  
 
+REGLAS = (
+    regla_variacion(1.2),
+    regla_salto(0.5),
+    regla_volatilidad(0.4),
+)
 
 def crear_eventos():
     """Devuelve el flujo de eventos: dataset histórico o simulador."""
