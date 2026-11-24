@@ -80,3 +80,7 @@ python -m src.main
 ```bash
 python -m pytest tests/
 ```
+
+## Video
+### https://youtube.com/shorts/CTA-ZgeYg1E?si=aoJS-mU__02cjNcH
+
